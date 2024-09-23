@@ -1,18 +1,20 @@
 use std::cell::Cell;
-use url::{Url, SyntaxViolation};
+use url::{Url, SyntaxViolation, Position};
 use std::error::Error;
 
 #[cfg(any(unix, windows, target_os = "redox", target_os = "wasi"))]
 
 // MIRIFLAG=-Zmiri-disable-isolation cargo +fuzz miri test --package url --test fuzz_test -- fuzz_syntax_violation_callback_types --exact --show-output data=url_seddf//
-fn run(data: &str) -> Result<Option<SyntaxViolation>, Box<dyn Error>> {
+fn run_violation_target(data: &str) -> Result<(), Box<dyn Error>> {
+// fn run(data: &str) -> Result<(), Box<dyn Error>> {
     let violation = Cell::new(None);
     Url::options()
         .syntax_violation_callback(Some(&|v| violation.set(Some(v))))
         .parse(data)?;
 
     let v = violation.take();
-    Ok(v)
+    println!("Syntax violation: {:?}", v);
+    Ok(())
 }
 
 #[test]
@@ -32,4 +34,38 @@ fn fuzz_syntax_violation_callback_types() {
     } else {
         panic!("input data not found");
     }
+}
+
+fn run(data: &str) -> Result<(), Box<dyn Error>> {
+    if let Ok(url) = Url::parse(data) {
+        let positions = [
+            Position::BeforeScheme,
+            Position::AfterScheme,
+            Position::BeforeUsername,
+            Position::AfterUsername,
+            Position::BeforePassword,
+            Position::AfterPassword,
+            Position::BeforeHost,
+            Position::AfterHost,
+            Position::BeforePort,
+            Position::AfterPort,
+            Position::BeforePath,
+            Position::AfterPath,
+            Position::BeforeQuery,
+            Position::AfterQuery,
+            Position::BeforeFragment,
+            Position::AfterFragment,
+        ];
+
+        // Attempt to create slices of the URL using all "good" combinations of positions
+        for (i, &start) in positions.iter().enumerate() {
+            for &end in &positions[i..] {
+                let cut = &url[start..end];
+                println!("{:?}..{:?} = {:?}", start, end, cut);
+            }
+        }
+    } else {
+        println!("Invalid URL");
+    }
+    Ok(())
 }

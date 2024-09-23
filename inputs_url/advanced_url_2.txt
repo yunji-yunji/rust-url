@@ -1,0 +1,1 @@
+http://admin:admin123@intranet.example.org:8000/files/download?id=123&format=pdf#top

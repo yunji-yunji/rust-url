@@ -1,0 +1,1 @@
+ftp://ftpuser:ftppass@ftp.example.net:21/public/backup.zip

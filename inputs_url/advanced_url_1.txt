@@ -1,0 +1,1 @@
+https://username:password@host.com:8080/path/to/resource?query=value#fragment

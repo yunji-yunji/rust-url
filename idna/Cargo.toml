@@ -6,7 +6,7 @@ description = "IDNA (Internationalizing Domain Names in Applications) and Punyco
 categories = ["no_std"]
 repository = "https://github.com/servo/rust-url/"
 license = "MIT OR Apache-2.0"
-autotests = false
+# autotests = false
 edition = "2018"
 rust-version = "1.51"
 

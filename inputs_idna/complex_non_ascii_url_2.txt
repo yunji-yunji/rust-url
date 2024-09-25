@@ -1,0 +1,1 @@
+ftp://username:secret@пример.рф:21/downloads/file.zip?version=2#top

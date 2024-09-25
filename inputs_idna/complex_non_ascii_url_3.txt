@@ -1,0 +1,1 @@
+http://例え.テスト:9090/some/path/to/page?param=123&lang=ja#section

@@ -1,0 +1,1 @@
+https://admin:admin123@français.com:8443/account?lang=fr&mode=edit#details

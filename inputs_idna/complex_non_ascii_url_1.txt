@@ -1,1 +1,0 @@
-https://user:password@bücher.de:8080/path/to/resource?query=wert#fragment
